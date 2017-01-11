@@ -1,7 +1,6 @@
-﻿using System;
+﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Parsedoc_Console;
-using System.IO;
 
 namespace UnitTestProject
 {
@@ -15,12 +14,9 @@ namespace UnitTestProject
             const int recordsinFile = 4;
             const string fileName = "UnitTest.docx";
             var fileLocation = new FileInfo(fileName).FullName;
-
             var eventItemCollection = obj.LoadCollection(fileLocation);
-
             if (eventItemCollection == null) return;
             var result = eventItemCollection.Count;
-
             Assert.AreEqual(result, recordsinFile);
         }
     }
