@@ -3,7 +3,6 @@
 ################################################################################
 
 *.suo
-\\obj\Debug
-\\bin\Debug
-\\obj\Release
-\\bin\Release
+/**/obj/**
+/**/bin/**
+/Parsedoc_Console/packages

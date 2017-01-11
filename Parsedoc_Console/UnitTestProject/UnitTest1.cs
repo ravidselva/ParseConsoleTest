@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Parsedoc_Console;
 
@@ -18,6 +19,18 @@ namespace UnitTestProject
             if (eventItemCollection == null) return;
             var result = eventItemCollection.Count;
             Assert.AreEqual(result, recordsinFile);
+        }
+
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var obj = new EventItemModel();
+            const string fileName = "full.docx";
+            var fileLocation = new FileInfo(fileName).FullName;
+            var eventItemCollection = obj.LoadCollection(fileLocation);
+
+            eventItemCollection.Count.Should().BeGreaterThan(10);
         }
     }
 }
