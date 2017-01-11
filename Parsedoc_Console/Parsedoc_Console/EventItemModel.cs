@@ -53,21 +53,21 @@ namespace Parsedoc_Console
                         switch (cellValues[1].Trim())
                         {
                             case "Выход":
-                                eventItemModel.Event = EventType.Exit;
+                                eventItemModel.Event = EventType.Leave;
                                 break;
                             case "Вход":
-                                eventItemModel.Event = EventType.Entrance;
+                                eventItemModel.Event = EventType.Enter;
                                 break;
                             case "Проход":
-                                eventItemModel.Event = EventType.Passage;
+                                eventItemModel.Event = EventType.Pass;
                                 break;
                         }
 
-                        if (cellValues[4] == "Date of birth")
+                        if (cellValues[4] == "Дата рождения")
                         {
                             Global.LastName = cellValues[1];
                         }
-                        if (cellValues[4] == "Position")
+                        if (cellValues[4] == "Должность")
                         {
                             Global.FirstName = cellValues[1];
                         }
@@ -83,17 +83,16 @@ namespace Parsedoc_Console
                     }
                 }
             }
-
-            return empData.FindAll(x => x.FirstName !=null).FindAll(y=>y.Door != string.Empty).FindAll(z=>z.Door != "Door");
+            return empData.FindAll(x => x.FirstName != null).FindAll(y => y.Door != string.Empty).FindAll(z => z.Door != "дверь");
         }
 
     }
 
     public enum EventType
     {
-        Entrance, 
-        Exit,
-        Passage
+        Enter, 
+        Leave,
+        Pass
     }
 
     public static class Global
