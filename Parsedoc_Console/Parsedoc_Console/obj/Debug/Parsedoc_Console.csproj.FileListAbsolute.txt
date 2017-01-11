@@ -1,13 +1,1 @@
-C:\Users\gd-08\Desktop\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.exe.config
-C:\Users\gd-08\Desktop\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.exe
-C:\Users\gd-08\Desktop\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.pdb
-C:\Users\gd-08\Desktop\Parsedoc_Console\Parsedoc_Console\bin\Debug\DocX.dll
-C:\Users\gd-08\Desktop\Parsedoc_Console\Parsedoc_Console\obj\Debug\Parsedoc_Console.exe
-C:\Users\gd-08\Desktop\Parsedoc_Console\Parsedoc_Console\obj\Debug\Parsedoc_Console.pdb
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.exe.config
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\obj\Debug\Parsedoc_Console.exe
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\obj\Debug\Parsedoc_Console.pdb
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.exe
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.pdb
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\bin\Debug\DocX.dll
-C:\Users\gd-08\Desktop\MyGitRepo\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\obj\Debug\Parsedoc_Console.csprojResolveAssemblyReference.cache
+C:\DiskD\PM_Temp\ParseConsoleTest\Parsedoc_Console\Parsedoc_Console\bin\Debug\Parsedoc_Console.exe.config
