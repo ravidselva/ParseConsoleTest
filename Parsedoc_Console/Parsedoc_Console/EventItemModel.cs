@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Novacode;
 
@@ -9,7 +8,7 @@ namespace Parsedoc_Console
     {
         public string LastName { get; set; } //e.g. Абрамов
         public string FirstName { get; set; } //e.g. Алексей
-        public DateTime DateTime { get; set; } //e.g. 01.10.2016 13:56:03
+        public string DateTime { get; set; } //e.g. 01.10.2016 13:56:03
         public EventType Event { get; set; } //e.g. EventType.Enter
         public string AccessArea { get; set; }
         public string Details { get; set; }
@@ -18,23 +17,17 @@ namespace Parsedoc_Console
         public List<EventItemModel> LoadCollection(string fileLocation)
         {
             var empData = new List<EventItemModel>();
-            
+
             using (
                 var docX =
                     DocX.Load(fileLocation))
             {
-
                 foreach (var table in docX.Tables)
                 {
-
                     foreach (var row in table.Rows)
                     {
                         var eventItemModel = new EventItemModel();
-                        var cellValues = new List<string>();
-                        foreach (var cell in row.Cells)
-                        {
-                            cellValues.Add(cell.Paragraphs.First().Text);
-                        }
+                        var cellValues = row.Cells.Select(cell => cell.Paragraphs.First().Text).ToList();
                         switch (cellValues.Count)
                         {
                             case 1:
@@ -56,26 +49,56 @@ namespace Parsedoc_Console
                                 cellValues.Add(string.Empty);
                                 break;
                         }
-                        eventItemModel.LastName = "";
-                        eventItemModel.FirstName = "";
+                        // Event Type
+                        switch (cellValues[1].Trim())
+                        {
+                            case "Выход":
+                                eventItemModel.Event = EventType.Exit;
+                                break;
+                            case "Вход":
+                                eventItemModel.Event = EventType.Entrance;
+                                break;
+                            case "Проход":
+                                eventItemModel.Event = EventType.Passage;
+                                break;
+                        }
 
-                        eventItemModel.DateTime = DateTime.Now; // DateTime
-                        //eventItemModel.EventType = cellValues[1] EventType.Enter; // Event Type
-                        eventItemModel.Door = cellValues[2]; //Door
-                        eventItemModel.AccessArea = cellValues[3]; // Access Area                      
-                        eventItemModel.Details = cellValues[4]; // Details
+                        if (cellValues[4] == "Date of birth")
+                        {
+                            Global.LastName = cellValues[1];
+                        }
+                        if (cellValues[4] == "Position")
+                        {
+                            Global.FirstName = cellValues[1];
+                        }
+                       
+                        // DateTime
+                        eventItemModel.DateTime = cellValues[0];
+                        eventItemModel.LastName = Global.LastName;
+                        eventItemModel.FirstName = Global.FirstName;
+                        eventItemModel.Door = cellValues[2].ToString(); //Door
+                        eventItemModel.AccessArea = cellValues[3].ToString(); // Access Area                      
+                        eventItemModel.Details = cellValues[4].ToString(); // Details
                         empData.Add(eventItemModel);
                     }
                 }
             }
-            return empData;
+
+            return empData.FindAll(x => x.FirstName !=null).FindAll(y=>y.Door != string.Empty).FindAll(z=>z.Door != "Door");
         }
+
     }
 
     public enum EventType
     {
-        Enter,
-        Leave,
-        Pass
+        Entrance, 
+        Exit,
+        Passage
     }
-}
+
+    public static class Global
+    {
+        public static string LastName { get; set; }
+        public static string FirstName { get; set; }
+    }
+} 
