@@ -12,8 +12,7 @@ namespace UnitTestProject
         public void TestMethod1()
         {
             var obj = new EventItemModel();
-            const int recordsinFile = 4;
-            const string fileName = "DocRussian.docx";
+           const string fileName = "DocRussian.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
             if (eventItemCollection == null) return;
@@ -27,7 +26,6 @@ namespace UnitTestProject
             const string fileName = "DocRussian.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
-
             eventItemCollection.Count.Should().BeGreaterThan(10);
         }
 
