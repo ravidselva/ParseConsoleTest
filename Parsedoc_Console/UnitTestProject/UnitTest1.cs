@@ -26,7 +26,6 @@ namespace UnitTestProject
             const string fileName = "DocRussian.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
-
             eventItemCollection.Count.Should().BeGreaterThan(10);
         }
 
