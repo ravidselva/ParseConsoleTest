@@ -41,8 +41,9 @@ namespace UnitTestProject
         }
 
 
+
         [TestMethod]
-        public void TestMethod2()
+        public void Artur_TestMethod()
         {
             var obj = new EventItemModel();
             const string fileName = "full.docx";
