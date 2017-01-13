@@ -13,12 +13,33 @@ namespace UnitTestProject
         {
             var obj = new EventItemModel();
             const int recordsinFile = 4;
-            const string fileName = "UnitTest.docx";
+            const string fileName = "DocEnglish.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
             if (eventItemCollection == null) return;
-            var result = eventItemCollection.Count;
-            Assert.AreEqual(result, recordsinFile);
+          eventItemCollection.Count.Should().BeGreaterThan(10);
+        }
+        
+        [TestMethod]
+        public void TestMethod2()
+        {
+            var obj = new EventItemModel();
+            const string fileName = "DocEnglish.docx";
+            var fileLocation = new FileInfo(fileName).FullName;
+            var eventItemCollection = obj.LoadCollection(fileLocation);
+
+            eventItemCollection.Count.Should().BeGreaterThan(10);
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            var obj = new EmployeeDayInformationModel();
+            const string fileName = "DocEnglish.docx";
+            var fileLocation = new FileInfo(fileName).FullName;
+            var eventItemCollection = obj.GetEmployeeDayInfo(fileLocation);
+
+            eventItemCollection.Count.Should().BeGreaterThan(1);
         }
 
 

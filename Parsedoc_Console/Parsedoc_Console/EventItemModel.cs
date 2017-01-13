@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Novacode;
 
@@ -8,7 +9,8 @@ namespace Parsedoc_Console
     {
         public string LastName { get; set; } //e.g. Абрамов
         public string FirstName { get; set; } //e.g. Алексей
-        public string DateTime { get; set; } //e.g. 01.10.2016 13:56:03
+        public DateTime DateTime { get; set; } //e.g. 01.10.2016 13:56:03
+
         public EventType Event { get; set; } //e.g. EventType.Enter
         public string AccessArea { get; set; }
         public string Details { get; set; }
@@ -28,6 +30,7 @@ namespace Parsedoc_Console
                     {
                         var eventItemModel = new EventItemModel();
                         var cellValues = row.Cells.Select(cell => cell.Paragraphs.First().Text).ToList();
+
                         switch (cellValues.Count)
                         {
                             case 1:
@@ -52,38 +55,42 @@ namespace Parsedoc_Console
                         // Event Type
                         switch (cellValues[1].Trim())
                         {
-                            case "Выход":
+                            case "Exit":
                                 eventItemModel.Event = EventType.Leave;
                                 break;
-                            case "Вход":
+                            case "Entrance":
                                 eventItemModel.Event = EventType.Enter;
                                 break;
-                            case "Проход":
+                            case "Passage":
                                 eventItemModel.Event = EventType.Pass;
                                 break;
                         }
 
-                        if (cellValues[4] == "Дата рождения")
+                        if (cellValues[4] == "Date of birth")
                         {
                             Global.LastName = cellValues[1];
                         }
-                        if (cellValues[4] == "Должность")
+                        if (cellValues[4] == "Position")
                         {
                             Global.FirstName = cellValues[1];
                         }
-                       
+
                         // DateTime
-                        eventItemModel.DateTime = cellValues[0];
+
+                        eventItemModel.DateTime = cellValues[0] == "Date/Time" ? DateTime.MinValue : string.IsNullOrEmpty(cellValues[0]) ? DateTime.MinValue : Convert.ToDateTime(Convert.ToDateTime(cellValues[0]).ToString("dd/MM/yyyy HH:mm:ss"));
                         eventItemModel.LastName = Global.LastName;
                         eventItemModel.FirstName = Global.FirstName;
-                        eventItemModel.Door = cellValues[2].ToString(); //Door
-                        eventItemModel.AccessArea = cellValues[3].ToString(); // Access Area                      
-                        eventItemModel.Details = cellValues[4].ToString(); // Details
-                        empData.Add(eventItemModel);
+                        eventItemModel.Door = cellValues[2]; //Door
+                        eventItemModel.AccessArea = cellValues[3]; // Access Area                      
+                        eventItemModel.Details = cellValues[4]; // Details
+                        if (eventItemModel.Details != "Employee number")
+                        {
+                            empData.Add(eventItemModel);
+                        }
                     }
                 }
             }
-            return empData.FindAll(x => x.FirstName != null).FindAll(y => y.Door != string.Empty).FindAll(z => z.Door != "дверь");
+            return empData.FindAll(x => x.FirstName != null).FindAll(y => y.Door != string.Empty).FindAll(z => z.Door != "Door");
         }
 
     }
