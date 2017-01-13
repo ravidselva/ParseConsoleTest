@@ -69,6 +69,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DocRussian.docx" />
     <None Include="full.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

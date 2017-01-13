@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Novacode;
 
 namespace Parsedoc_Console
 {
@@ -31,32 +32,39 @@ namespace Parsedoc_Console
 
             var empData = new EventItemModel().LoadCollection(fileLocation).FindAll(x => x.Event != EventType.Pass);
 
-            foreach (var emp in empData.Select(x => x.FirstName).Distinct())
+            foreach (var emp in empData.GroupBy(x => new { x.FirstName, x.LastName })
+                         .Select(g => g.First())
+                         .ToList())
             {
-
-                // var dates = timetableEvents.GroupBy(x => x.DateTimeStart.Date).Distinct();
                 foreach (var date in empData.Select(y => y.DateTime.Date).Distinct())
                 {
-                    var availableAt11Am = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 11, 0, 0);
-                    if (empData.FindAll(x => x.FirstName == emp && x.DateTime.Date == date.Date).Count <= 0) continue;
+                    var availableAt11Am = new DateTime(date.Year, date.Month, date.Day, 11, 0, 0);
+                    if (
+                        empData.FindAll(
+                            x =>
+                                x.FirstName == emp.FirstName && x.LastName == emp.LastName &&
+                                x.DateTime.Date == date.Date).Count <= 0) continue;
+
                     var empDayInfo = new EmployeeDayInformationModel
                     {
-                        FirstEnter = Convert.ToDateTime(
-                            empData.FindAll(x => x.FirstName == emp && x.DateTime.Date == date.Date)
-                                .Min(d => d.DateTime)),
+                        FirstEnter =
+                            empData.FindAll(x => x.FirstName == emp.FirstName && x.LastName == emp.LastName && x.Event == EventType.Enter).First().DateTime
+                                ,
+
                         Date = Convert.ToDateTime(date.Date),
-                        FirstName = emp,
-                        LastName = empData.FindAll(x => x.FirstName == emp && x.DateTime.Date == date.Date)[0].LastName,
-                        LastLeave = Convert.ToDateTime(
-                            empData.FindAll(x => x.FirstName == emp && x.DateTime.Date == date.Date).Max(d => d.
-                                DateTime))
+                        FirstName = emp.FirstName,
+                        LastName = emp.LastName,
+                        LastLeave = empData.FindAll(x => x.FirstName == emp.FirstName && x.LastName == emp.LastName && x.Event == EventType.Leave).Last().DateTime
                     };
 
                     var duration = empDayInfo.LastLeave.Subtract(empDayInfo.FirstEnter);
                     empDayInfo.TimeInTheOficeInSeconds = Convert.ToInt32(duration.TotalSeconds);
-
-                    empDayInfo.WasInTheOfficeAt11Am = Convert.ToDateTime(date) == availableAt11Am;
-
+                    empDayInfo.WasInTheOfficeAt11Am = empData.FindAll(
+                        x =>
+                            x.FirstName == emp.FirstName && x.LastName == emp.LastName &&
+                            x.DateTime <= availableAt11Am && x.Event == EventType.Enter &&
+                            x.Event != EventType.Leave).Count > 0;
+                   
                     empDayInfoCollection.Add(empDayInfo);
                 }
             }

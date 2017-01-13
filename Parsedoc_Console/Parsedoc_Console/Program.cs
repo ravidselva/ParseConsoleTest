@@ -8,7 +8,7 @@ namespace Parsedoc_Console
         {
             var obj = new EventItemModel();
             var objDayInfo = new EmployeeDayInformationModel();
-            const string fileName = "DocEnglish.docx";
+            const string fileName = "DocRussian.docx";
             var fileLocation = new FileInfo(fileName).FullName;
 
             Console.WriteLine("Enter 0 for full info and 1 for day wise info");
