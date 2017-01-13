@@ -12,13 +12,13 @@ namespace UnitTestProject
         public void TestMethod1()
         {
             var obj = new EventItemModel();
-           const string fileName = "DocRussian.docx";
+            const string fileName = "DocRussian.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
             if (eventItemCollection == null) return;
-          eventItemCollection.Count.Should().BeGreaterThan(10);
+            eventItemCollection.Count.Should().Be(9);
         }
-        
+
         [TestMethod]
         public void TestMethod2()
         {
@@ -26,7 +26,7 @@ namespace UnitTestProject
             const string fileName = "DocRussian.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
-            eventItemCollection.Count.Should().BeGreaterThan(10);
+            eventItemCollection.Count.Should().Be(9);
         }
 
         [TestMethod]
@@ -49,6 +49,8 @@ namespace UnitTestProject
             const string fileName = "full.docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.LoadCollection(fileLocation);
+            var dayInfo = new EmployeeDayInformationModel().GetEmployeeDayInfo(fileLocation);
+
 
             eventItemCollection.Count.Should().BeGreaterThan(10);
         }
