@@ -74,6 +74,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <None Include="UnitTest-Russia.docx" />
     <None Include="UnitTest.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
