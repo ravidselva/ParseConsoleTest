@@ -66,6 +66,21 @@ namespace Parsedoc_Console
                                 break;
                         }
 
+                        #region for testing code in english
+                        //switch (cellValues[1].Trim())
+                        //{
+                        //    case "Exit":
+                        //        eventItemModel.Event = EventType.Leave;
+                        //        break;
+                        //    case "Entrance":
+                        //        eventItemModel.Event = EventType.Enter;
+                        //        break;
+                        //    case "Passage":
+                        //        eventItemModel.Event = EventType.Pass;
+                        //        break;
+                        //}
+                        #endregion
+
                         if (cellValues[4] == "Дата рождения")
                         {
                             lastName = cellValues[1];
@@ -75,8 +90,19 @@ namespace Parsedoc_Console
                             firstName = cellValues[1];
                         }
 
+                        #region #Testing For English
+                        //if (cellValues[4] == "Date of Birth")
+                        //{
+                        //    lastName = cellValues[1];
+                        //}
+                        //if (cellValues[4] == "Position")
+                        //{
+                        //    firstName = cellValues[1];
+                        //}
+                        #endregion
                         // DateTime
-                        eventItemModel.DateTime = cellValues[0] == "дата/время" ? DateTime.MinValue : string.IsNullOrEmpty(cellValues[0]) ? DateTime.MinValue : Convert.ToDateTime(Convert.ToDateTime(cellValues[0]).ToString("dd/MM/yyyy HH:mm:ss"));
+
+                        eventItemModel.DateTime = cellValues[0] == "дата/время" ? DateTime.MinValue : string.IsNullOrEmpty(cellValues[0]) ? DateTime.MinValue : Convert.ToDateTime(cellValues[0]);
 
                         eventItemModel.LastName = lastName;
                         eventItemModel.FirstName = firstName;

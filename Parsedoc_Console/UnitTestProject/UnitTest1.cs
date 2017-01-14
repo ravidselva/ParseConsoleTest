@@ -33,11 +33,24 @@ namespace UnitTestProject
         public void TestMethod3()
         {
             var obj = new EmployeeDayInformationModel();
-            const string fileName = "DocRussian.docx";
+            const string fileName = "UnitTestEnglish .docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.GetEmployeeDayInfo(fileLocation);
 
             eventItemCollection.Count.Should().BeGreaterThan(1);
+        }
+
+
+
+        [TestMethod]
+        public void Artur_TestMethod()
+        {
+            var obj = new EventItemModel();
+            const string fileName = "full.docx";
+            var fileLocation = new FileInfo(fileName).FullName;
+            var eventItemCollection = obj.LoadCollection(fileLocation);
+
+            eventItemCollection.Count.Should().BeGreaterThan(10);
         }
     }
 }

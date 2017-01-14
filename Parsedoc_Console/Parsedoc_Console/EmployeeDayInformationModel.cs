@@ -10,9 +10,8 @@ namespace Parsedoc_Console
         public DateTime Date { get; set; } // 01.10.2016
         public string LastName { get; set; } //Абрамов
         public string FirstName { get; set; } //Алексей
-
-        public DateTime FirstEnter { get; set; } //01.10.2016 08:33:35
-        public DateTime LastLeave { get; set; } //01.10.2016 18:27:35
+        public DateTime? FirstEnter { get; set; } //01.10.2016 08:33:35
+        public DateTime? LastLeave { get; set; } //01.10.2016 18:27:35
         public bool WasInTheOfficeAt11Am { get; set; } //Was particular employee at 11:00 AM at the office or not
         public long TimeInTheOficeInSeconds { get; set; }
 
@@ -20,7 +19,7 @@ namespace Parsedoc_Console
         {
             Console.WriteLine("Date = {0},First Name ={1} ", Date, FirstName);
             Console.WriteLine("Last Name = {0}, FirstEnter = {1}", LastName, FirstEnter);
-            Console.WriteLine("LastLeave = {0},  WasInTheOfficeAt11Am = {1}, TimeInTheOficeInSeconds = {2}", LastLeave, WasInTheOfficeAt11Am, TimeInTheOficeInSeconds);
+            Console.WriteLine("LastLeave = {0},  WasInTheOfficeAt11Am = {1}", LastLeave, WasInTheOfficeAt11Am);
             Console.WriteLine("TimeInTheOficeInSeconds = {0}", TimeInTheOficeInSeconds);
             Console.WriteLine("-----------------------------------------------");
             return true;
@@ -38,33 +37,25 @@ namespace Parsedoc_Console
             {
                 foreach (var date in empData.Select(y => y.DateTime.Date).Distinct())
                 {
-                    var availableAt11Am = new DateTime(date.Year, date.Month, date.Day, 11, 0, 0);
-                    if (
-                        empData.FindAll(
-                            x =>
-                                x.FirstName == emp.FirstName && x.LastName == emp.LastName &&
-                                x.DateTime.Date == date.Date).Count <= 0) continue;
+                    var filteredData = empData.FindAll(
+                        x =>
+                            x.FirstName == emp.FirstName && x.LastName == emp.LastName &&
+                            x.DateTime.Date == date.Date);
+                    var checkEnter = filteredData.FindAll(x => x.Event == EventType.Enter);
+                    var checkLeave = filteredData.FindAll(x => x.Event == EventType.Leave);
+                    if (filteredData.Count <= 0) continue;
 
                     var empDayInfo = new EmployeeDayInformationModel
                     {
-                        FirstEnter =
-                            empData.FindAll(x => x.FirstName == emp.FirstName && x.LastName == emp.LastName && x.Event == EventType.Enter).First().DateTime
-                                ,
-
+                        FirstEnter = checkEnter.Count > 0 ? checkEnter.First().DateTime : (DateTime?) null,
                         Date = Convert.ToDateTime(date.Date),
                         FirstName = emp.FirstName,
                         LastName = emp.LastName,
-                        LastLeave = empData.FindAll(x => x.FirstName == emp.FirstName && x.LastName == emp.LastName && x.Event == EventType.Leave).Last().DateTime
+                        LastLeave = checkLeave.Count > 0 ? checkLeave.Last().DateTime : (DateTime?) null,
+                        TimeInTheOficeInSeconds = Convert.ToInt32(filteredData.GetTotalDurationFor()),
+                        WasInTheOfficeAt11Am = filteredData.WasInTheOfficeAt11Am(date)
                     };
-
-                    var duration = empDayInfo.LastLeave.Subtract(empDayInfo.FirstEnter);
-                    empDayInfo.TimeInTheOficeInSeconds = Convert.ToInt32(duration.TotalSeconds);
-                    empDayInfo.WasInTheOfficeAt11Am = empData.FindAll(
-                        x =>
-                            x.FirstName == emp.FirstName && x.LastName == emp.LastName &&
-                            x.DateTime <= availableAt11Am && x.Event == EventType.Enter &&
-                            x.Event != EventType.Leave).Count > 0;
-                   
+                    empDayInfo.Print();
                     empDayInfoCollection.Add(empDayInfo);
                 }
             }

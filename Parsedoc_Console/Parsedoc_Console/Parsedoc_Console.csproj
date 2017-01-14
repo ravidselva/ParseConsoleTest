@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppExtenstions.cs" />
     <Compile Include="EmployeeDayInformationModel.cs" />
     <Compile Include="EventItemModel.cs" />
     <Compile Include="Program.cs" />
