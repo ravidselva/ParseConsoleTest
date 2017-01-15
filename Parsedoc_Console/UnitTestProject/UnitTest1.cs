@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Parsedoc_Console;
@@ -53,6 +55,38 @@ namespace UnitTestProject
 
 
             eventItemCollection.Count.Should().BeGreaterThan(10);
+        }
+
+        [TestMethod]
+        public void WasInTheOffice_EnteredBefore11_LeftBefore11_ResultShouldBeFalse()
+        {
+            AppExtenstions.WasInTheOfficeAt11Am(new List<EventItemModel>()
+            {
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,10,0,0), Event = EventType.Enter},
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,10,30,0), Event = EventType.Leave},
+            }, new DateTime(2017, 1, 1)).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void WasInTheOffice_EnteredBefore11_LeftAfter11_ResultShouldBeTrue()
+        {
+            AppExtenstions.WasInTheOfficeAt11Am(new List<EventItemModel>()
+            {
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,10,0,0), Event = EventType.Enter},
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,11,30,0), Event = EventType.Leave},
+            }, new DateTime(2017, 1, 1)).Should().BeTrue();
+        }
+
+
+        [TestMethod]
+        public void GetTotalDurationFor_PassEventInBetween()
+        {
+            AppExtenstions.GetTotalDurationFor(new List<EventItemModel>()
+            {
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,10,0,0), Event = EventType.Enter},
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,10,30,0), Event = EventType.Pass},
+                new EventItemModel() {DateTime = new DateTime(2017,1,1,11,30,0), Event = EventType.Leave},
+            }).Should().Be(90);
         }
     }
 }
