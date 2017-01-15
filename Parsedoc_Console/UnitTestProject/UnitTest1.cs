@@ -33,7 +33,7 @@ namespace UnitTestProject
         public void TestMethod3()
         {
             var obj = new EmployeeDayInformationModel();
-            const string fileName = "DocRussian.docx";
+            const string fileName = "UnitTestEnglish .docx";
             var fileLocation = new FileInfo(fileName).FullName;
             var eventItemCollection = obj.GetEmployeeDayInfo(fileLocation);
 
