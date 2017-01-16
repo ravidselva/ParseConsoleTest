@@ -67,6 +67,7 @@ namespace Parsedoc_Console
                         }
 
                         #region for testing code in english
+
                         //switch (cellValues[1].Trim())
                         //{
                         //    case "Exit":
@@ -79,6 +80,7 @@ namespace Parsedoc_Console
                         //        eventItemModel.Event = EventType.Pass;
                         //        break;
                         //}
+
                         #endregion
 
                         if (cellValues[4] == "Дата рождения")
@@ -91,6 +93,7 @@ namespace Parsedoc_Console
                         }
 
                         #region #Testing For English
+
                         //if (cellValues[4] == "Date of Birth")
                         //{
                         //    lastName = cellValues[1];
@@ -99,13 +102,19 @@ namespace Parsedoc_Console
                         //{
                         //    firstName = cellValues[1];
                         //}
+
                         #endregion
+
                         // DateTime
 
-                        eventItemModel.DateTime = cellValues[0] == "дата/время" ? DateTime.MinValue : string.IsNullOrEmpty(cellValues[0]) ? DateTime.MinValue : Convert.ToDateTime(cellValues[0]);
+                        eventItemModel.DateTime = cellValues[0] == "дата/время"
+                            ? DateTime.MinValue
+                            : string.IsNullOrEmpty(cellValues[0])
+                                ? DateTime.MinValue
+                                : Convert.ToDateTime(cellValues[0]);
 
-                        eventItemModel.LastName = lastName;
-                        eventItemModel.FirstName = firstName;
+                        eventItemModel.LastName = lastName; // Last Name
+                        eventItemModel.FirstName = firstName; // First Name
                         eventItemModel.Door = cellValues[2]; //Door
                         eventItemModel.AccessArea = cellValues[3]; // Access Area                      
                         eventItemModel.Details = cellValues[4]; // Details
@@ -116,7 +125,10 @@ namespace Parsedoc_Console
                     }
                 }
             }
-            return empData.FindAll(x => !string.IsNullOrEmpty(x.FirstName)).FindAll(y => y.Door != string.Empty).FindAll(z => z.Door != "дверь");
+            return
+                empData.FindAll(x => !string.IsNullOrEmpty(x.FirstName))
+                    .FindAll(y => y.Door != string.Empty)
+                    .FindAll(z => z.Door != "дверь");
         }
     }
 
@@ -126,5 +138,4 @@ namespace Parsedoc_Console
         Leave,
         Pass
     }
-
 }

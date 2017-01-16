@@ -29,7 +29,7 @@ namespace Parsedoc_Console
         {
             var empDayInfoCollection = new List<EmployeeDayInformationModel>();
 
-            var empData = new EventItemModel().LoadCollection(fileLocation).FindAll(x => x.Event != EventType.Pass);
+            var empData = new EventItemModel().LoadCollection(fileLocation);
 
             foreach (var emp in empData.GroupBy(x => new { x.FirstName, x.LastName })
                          .Select(g => g.First())

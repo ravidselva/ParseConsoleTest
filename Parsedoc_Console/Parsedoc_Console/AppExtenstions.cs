@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parsedoc_Console
 {
@@ -11,15 +9,15 @@ namespace Parsedoc_Console
         public static double GetTotalDurationFor(this List<EventItemModel> lst)
         {
             var selectedEmployeDayinout = lst.OrderBy(d => d.DateTime).ToList();
-            const int enterExitOperations = 2;
+            const int enterExitOperations = 1;
             double duration = 0;
 
-            if ((selectedEmployeDayinout.Count()%enterExitOperations) != 0) return duration;
-            for (var i = 0; i < selectedEmployeDayinout.Count(); i += enterExitOperations)
+           // if ((selectedEmployeDayinout.Count()%enterExitOperations) != 0) return duration;
+            for (var i = 0; i < selectedEmployeDayinout.Count()-1; i += enterExitOperations)
             {
                 var enterDate = selectedEmployeDayinout[i].DateTime;
                 var leaveDate = selectedEmployeDayinout[i + 1].DateTime;
-                duration += leaveDate.Subtract(enterDate).TotalMinutes;
+                duration += leaveDate.Subtract(enterDate).TotalSeconds;
             }
             return duration;
         }
