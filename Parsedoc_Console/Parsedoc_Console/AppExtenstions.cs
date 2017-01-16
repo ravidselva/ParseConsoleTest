@@ -8,11 +8,9 @@ namespace Parsedoc_Console
     {
         public static double GetTotalDurationFor(this List<EventItemModel> lst)
         {
-            var selectedEmployeDayinout = lst.OrderBy(d => d.DateTime).ToList();
+            var selectedEmployeDayinout = lst.FindAll(x => !x.Event.Equals(EventType.Pass)).OrderBy(d => d.DateTime).ToList();
             const int enterExitOperations = 1;
             double duration = 0;
-
-           // if ((selectedEmployeDayinout.Count()%enterExitOperations) != 0) return duration;
             for (var i = 0; i < selectedEmployeDayinout.Count()-1; i += enterExitOperations)
             {
                 var enterDate = selectedEmployeDayinout[i].DateTime;
@@ -49,6 +47,35 @@ namespace Parsedoc_Console
                 }
             }
             return avail;
+        }
+
+        public static DateTime GetDateTime(this string dateString, DocumentDateFormat docDateFormat)
+        {
+            const int dateIndex = 0;
+            const int timeIndex = 1;
+            const char splitChar = ' ';
+            const int dateAndTimeFounder = 2;
+            var dateAndTimeAre = dateString.Split(splitChar);
+            const char dateSeparator = '.';
+            const char timeSeparator = ':';
+            if (dateAndTimeAre.Count() == dateAndTimeFounder)
+            {
+                var dateParts = dateAndTimeAre[dateIndex].Split(dateSeparator);
+                var timeParts = dateAndTimeAre[timeIndex].Split(timeSeparator);
+                if (docDateFormat == DocumentDateFormat.ddMMyyyy)
+                {
+                    return new DateTime(Convert.ToInt32(dateParts[2]), Convert.ToInt32(dateParts[1]),
+                        Convert.ToInt32(dateParts[0]), Convert.ToInt32(timeParts[0]), Convert.ToInt32(timeParts[1]),
+                        Convert.ToInt32(timeParts[2]));
+                }
+                if (docDateFormat == DocumentDateFormat.MMddyyyy)
+                {
+                    return new DateTime(Convert.ToInt32(dateParts[2]), Convert.ToInt32(dateParts[0]),
+                        Convert.ToInt32(dateParts[1]), Convert.ToInt32(timeParts[0]), Convert.ToInt32(timeParts[1]),
+                        Convert.ToInt32(timeParts[2]));
+                }
+            }
+            throw new Exception("Invalid date time string");
         }
     }
 }

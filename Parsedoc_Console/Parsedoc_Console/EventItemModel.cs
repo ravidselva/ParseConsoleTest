@@ -111,7 +111,7 @@ namespace Parsedoc_Console
                             ? DateTime.MinValue
                             : string.IsNullOrEmpty(cellValues[0])
                                 ? DateTime.MinValue
-                                : Convert.ToDateTime(cellValues[0]);
+                                : cellValues[0].GetDateTime(DocumentDateFormat.ddMMyyyy);
 
                         eventItemModel.LastName = lastName; // Last Name
                         eventItemModel.FirstName = firstName; // First Name
@@ -137,5 +137,25 @@ namespace Parsedoc_Console
         Enter,
         Leave,
         Pass
+    }
+
+    public enum DocumentDateFormat
+    {
+        ddMMyyyy,
+        MMddyyyy
+    }
+
+    public enum DateParts
+    {
+        Day=0,
+        Month=1,
+        Year=2
+    }
+
+    public enum TimeParts
+    {
+        Hour = 0,
+        Minute = 1,
+        Second = 2
     }
 }

@@ -8,9 +8,10 @@ namespace Parsedoc_Console
 {
     class Program
     {
-        static void Main(string[] args)
-        {            
-           var obj = new EventItemModel();
+        private static void Main(string[] args)
+        {
+
+            var obj = new EventItemModel();
             var objDayInfo = new EmployeeDayInformationModel();
             const string fileName = "full.docx";
             var fileLocation = new FileInfo(fileName).FullName;
@@ -25,13 +26,15 @@ namespace Parsedoc_Console
 
                     foreach (var emp in empData)
                     {
-                        Console.WriteLine("First Name = {0}, Last Name = {1}, Date/Time = {2}, Door = {3}, EventType = {4}, Description = {5}", emp.FirstName, emp.LastName, emp.DateTime, emp.Door, emp.Event, emp.Details);
+                        Console.WriteLine(
+                            "First Name = {0}, Last Name = {1}, Date/Time = {2}, Door = {3}, EventType = {4}, Description = {5}",
+                            emp.FirstName, emp.LastName, emp.DateTime, emp.Door, emp.Event, emp.Details);
                         Console.WriteLine("-----------------------------------------------");
                     }
                     break;
                 case 1:
                     var empDayInfo = objDayInfo.GetEmployeeDayInfo(fileLocation).OrderBy(o => o.Date).ToList();
-                    empDayInfo.ForEach(x=>x.Print());
+                    empDayInfo.ForEach(x => x.Print());
                     break;
                 default:
                     Console.WriteLine("Wrong enter. please try again !!");
@@ -39,11 +42,9 @@ namespace Parsedoc_Console
                     intType = Convert.ToInt32(Console.ReadLine());
                     break;
             }
-
-
+            
             Console.WriteLine("Press Enter to Exit");
             Console.ReadLine();
-          
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Novacode;
 
 namespace Parsedoc_Console
 {
     public class EmployeeDayInformationModel
     {
         public DateTime Date { get; set; } // 01.10.2016
+        
         public string LastName { get; set; } //Абрамов
         public string FirstName { get; set; } //Алексей
         public DateTime? FirstEnter { get; set; } //01.10.2016 08:33:35
@@ -17,7 +17,7 @@ namespace Parsedoc_Console
 
         public bool Print()
         {
-            Console.WriteLine("Date = {0},First Name ={1} ", Date, FirstName);
+            Console.WriteLine("Date = {0:d/M/yyyy} ,First Name ={1} ", Date.Date,FirstName);
             Console.WriteLine("Last Name = {0}, FirstEnter = {1}", LastName, FirstEnter);
             Console.WriteLine("LastLeave = {0},  WasInTheOfficeAt11Am = {1}", LastLeave, WasInTheOfficeAt11Am);
             Console.WriteLine("TimeInTheOficeInSeconds = {0}", TimeInTheOficeInSeconds);
@@ -29,11 +29,12 @@ namespace Parsedoc_Console
         {
             var empDayInfoCollection = new List<EmployeeDayInformationModel>();
 
-            var empData = new EventItemModel().LoadCollection(fileLocation);
+            var empData = new EventItemModel().LoadCollection(fileLocation)
+                .FindAll(x => !x.Event.Equals(EventType.Pass));
 
-            foreach (var emp in empData.GroupBy(x => new { x.FirstName, x.LastName })
-                         .Select(g => g.First())
-                         .ToList())
+            foreach (var emp in empData.GroupBy(x => new {x.FirstName, x.LastName})
+                .Select(g => g.First())
+                .ToList())
             {
                 foreach (var date in empData.Select(y => y.DateTime.Date).Distinct())
                 {
